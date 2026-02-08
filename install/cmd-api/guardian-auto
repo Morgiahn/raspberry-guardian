@@ -1,0 +1,6 @@
+#!/usr/bin/env bash
+
+curl -s localhost:9001/mode \
+    -d '{"mode": "auto"}' \
+    -H "Content-Type: application/json" \
+    -X POST

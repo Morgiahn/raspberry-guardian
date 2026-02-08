@@ -1,0 +1,14 @@
+[Unit]
+Description=Battery Guardian Service
+After=network.target
+
+[Service]
+User=battery-guardian
+Group=battery-guardian
+ExecStart=/usr/local/bin/battery-guardian
+WorkingDirectory=/etc/battery-guardian
+Restart=always
+Environment=RUST_LOG=info
+
+[Install]
+WantedBy=multi-user.target

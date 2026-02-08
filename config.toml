@@ -1,0 +1,73 @@
+# ============================================================================
+# CONFIGURATION DU BATTERY GUARDIAN
+# ============================================================================
+# Ce fichier configure tous les paramètres du système de gestion de batterie
+
+[shelly]
+# Adresse IP de votre Shelly Plug S sur le réseau local
+# À modifier selon votre réseau (vérifier dans l'app Shelly ou votre routeur)
+ip = "192.168.1.60"
+
+# Timeout pour les requêtes HTTP (en secondes)
+# Si la prise ne répond pas dans ce délai, on considère qu'il y a un problème
+timeout_seconds = 5
+
+# Nombre de tentatives avant d'abandonner une requête
+max_retries = 3
+
+[battery]
+# Seuil CRITIQUE : en dessous de ce niveau, SHUTDOWN IMMÉDIAT
+# Valeur en pourcentage (0-100)
+critical_threshold = 19
+
+# Seuil BAS : active le mode CHARGE
+# Quand la batterie descend à ce niveau, on allume la prise
+low_threshold = 20
+
+# Seuil HAUT : active le mode DÉCHARGE
+# Quand la batterie monte à ce niveau, on éteint la prise
+high_threshold = 90
+
+# Hystérésis : marge pour éviter les oscillations
+# Exemple : avec hystérésis=2, on ne repasse en décharge qu'à 88% (90-2)
+hysteresis = 2
+
+# Intervalle de vérification de la batterie (en secondes)
+check_interval_seconds = 30
+
+[network]
+# La connectivité est vérifiée en testant si la prise Shelly répond
+# Si elle ne répond pas N fois de suite, on considère le réseau perdu et on shutdown
+
+# Nombre d'échecs consécutifs avant de considérer la connexion perdue
+max_consecutive_failures = 3
+
+# Intervalle de vérification du réseau (en secondes)
+check_interval_seconds = 60
+
+[logging]
+# Niveau de log : trace, debug, info, warn, error
+# En production, utiliser "info" ou "warn"
+# En développement, utiliser "debug" ou "trace"
+level = "info"
+
+# Fichier de log (optionnel, sinon logs vers stdout)
+# Sur Raspberry Pi, mettre : "/var/log/battery-guardian.log"
+# file = "/var/log/battery-guardian.log"
+
+[system]
+# Commande de shutdown à exécuter en cas d'urgence
+# Sur Linux : "sudo shutdown -h now"
+# Pour tester sans vraiment éteindre : "echo 'SHUTDOWN WOULD HAPPEN'"
+shutdown_command = "sudo shutdown -h now"
+
+# Délai de grâce avant shutdown (en secondes)
+# Permet de logger proprement et de finaliser les opérations
+shutdown_grace_period_seconds = 10
+
+#state_file = "./state.json"
+state_file = "/var/lib/battery-guardian/state.json"
+
+# Adresse IP et port pour l'API
+api_ip = "0.0.0.0"       #   "127.0.0.1"  accessible à l'IP Raspberry 
+api_port = 9001

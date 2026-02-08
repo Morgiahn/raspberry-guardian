@@ -1,0 +1,15 @@
+# Configuration pour la cross-compilation vers Raspberry Pi
+
+# Pour Raspberry Pi 2/3/4 en 32-bit (ARM v7)
+[target.armv7-unknown-linux-gnueabihf]
+linker = "arm-linux-gnueabihf-gcc"
+
+# Pour Raspberry Pi 3/4 en 64-bit (ARM v8 / AArch64)
+[target.aarch64-unknown-linux-gnu]
+linker = "aarch64-linux-gnu-gcc"
+
+# Optimisations pour binaires légers (déjà dans Cargo.toml mais on peut surcharger ici)
+[build]
+# Nombre de jobs parallèles (adapter selon votre CPU)
+jobs = 4
+

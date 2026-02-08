@@ -1,0 +1,167 @@
+╔══════════════════════════════════════════════════════════════╗
+║                                                              ║
+║              BATTERY GUARDIAN                           ║
+║                                                              ║
+║    Gestionnaire Automatique de Batterie Raspberry Pi        ║
+║                  Écrit en Rust                               ║
+║                                                              ║
+╚══════════════════════════════════════════════════════════════╝
+
+Bienvenue !
+
+Ce projet est un DAEMON RUST complet pour gérer automatiquement
+la charge de ton Raspberry Pi avec une batterie et une Shelly Plug S.
+
+Il est HYPER-DOCUMENTÉ pour t'apprendre Rust en pratiquant !
+
+
+PAR OÙ COMMENCER ?
+════════════════════════════════════════════════════════════════
+
+1)  LIS D'ABORD : PROJECT_SUMMARY.md
+    → Vue d'ensemble du projet (5 min de lecture)
+
+2)  ENSUITE : README.md
+    → Documentation complète et détaillée
+
+3)  POUR DÉMARRER VITE : QUICKSTART.md
+    → Installation et déploiement en 10 min
+
+4)  POUR APPRENDRE RUST : LEARNING_PATH.md
+    → Parcours d'apprentissage progressif
+
+
+STRUCTURE DU PROJET
+════════════════════════════════════════════════════════════════
+
+DOCUMENTATION :
+  README.md             - Guide complet
+  PROJECT_SUMMARY.md    - Résumé et vue d'ensemble
+  QUICKSTART.md         - Démarrage rapide
+  LEARNING_PATH.md      - Parcours d'apprentissage Rust
+  ARCHITECTURE.md       - Architecture technique détaillée
+
+CODE SOURCE (src/) :
+  config.rs             - Configuration (COMMENCE ICI!)
+  shelly.rs             - Contrôle Shelly Plug S
+  battery.rs            - Lecture batterie Linux
+  network.rs            - Surveillance WiFi
+  state.rs              - Machine à états
+  main.rs               - Point d'entrée
+
+CONFIGURATION :
+  Cargo.toml            - Dépendances Rust
+  config.toml           - Configuration runtime
+  Makefile              - Automatisation build/deploy
+  battery-guardian.service - Service systemd
+  .gitignore            - Fichiers ignorés par git
+
+
+TU ES DÉBUTANT EN RUST ?
+════════════════════════════════════════════════════════════════
+
+Ce projet est PARFAIT pour apprendre ! Voici pourquoi :
+
+- Chaque fichier est COMMENTÉ ligne par ligne
+- 73+ concepts Rust expliqués avec exemples
+- Documentation progressive (facile → avancé)
+- Tests unitaires pour comprendre
+- Projet CONCRET et UTILE (pas un exercice fictif)
+
+
+TU VEUX JUSTE L'UTILISER ?
+════════════════════════════════════════════════════════════════
+
+1. Ouvre QUICKSTART.md
+2. Suis les étapes
+3. Déploie sur ton Raspberry Pi
+4. C'est prêt !
+
+
+COMMANDES RAPIDES
+════════════════════════════════════════════════════════════════
+
+# Compiler
+make build
+
+# Tester
+make test
+
+# Déployer sur le Pi
+make deploy PI_HOST=192.168.1.100
+
+# Voir tous les logs
+make logs-follow PI_HOST=192.168.1.100
+
+# Aide complète
+make help
+
+
+STATISTIQUES
+════════════════════════════════════════════════════════════════
+
+Lignes de code :             ~2,685
+Lignes de documentation :    ~2,000
+Concepts Rust expliqués :    73+
+Tests unitaires :            15+
+Fichiers de doc :            5
+
+
+CE QUE TU VAS APPRENDRE
+════════════════════════════════════════════════════════════════
+
+Débutant :
+  • Ownership & Borrowing
+  • Result et Option
+  • Structs et Enums
+  • Pattern Matching
+
+Intermédiaire :
+  • Async/await
+  • Itérateurs et Closures
+  • Traits et Generics
+
+Avancé :
+  • Arc<Mutex<T>>
+  • State Machine Pattern
+  • Tokio runtime
+  • Cross-compilation
+
+
+FONCTIONNALITÉS
+════════════════════════════════════════════════════════════════
+
+- Surveillance batterie automatique
+- Contrôle prise Shelly Plug S
+- Cycle charge/décharge intelligent
+- Monitoring WiFi avec timeout
+- Shutdown d'urgence si critique
+- Service systemd
+- Logging structuré
+- Configuration externe
+
+
+BESOIN D'AIDE ?
+════════════════════════════════════════════════════════════════
+
+1. Lis les fichiers .md (très détaillés)
+2. Regarde les commentaires dans le code
+3. Consulte The Rust Book : https://doc.rust-lang.org/book/
+4. Pose des questions sur r/rust ou Discord Rust
+
+
+C'EST PARTI !
+════════════════════════════════════════════════════════════════
+
+Commence par lire PROJECT_SUMMARY.md maintenant !
+
+Puis choisis ton parcours :
+  • Je veux apprendre Rust → LEARNING_PATH.md
+  • Je veux juste déployer → QUICKSTART.md
+  • Je veux tout comprendre → README.md
+
+════════════════════════════════════════════════════════════════
+
+Bon apprentissage de Rust !
+
+Et bonne gestion de ta batterie !

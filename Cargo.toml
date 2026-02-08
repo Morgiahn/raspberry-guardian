@@ -1,0 +1,80 @@
+[package]
+name = "battery-guardian"
+version = "0.1.0"
+edition = "2021"
+
+# Métadonnées du projet
+authors = ["Votre Nom"]
+description = "Gestionnaire intelligent de batterie pour Raspberry Pi avec Shelly Plug S"
+
+[dependencies]
+# === ASYNC RUNTIME ===
+# tokio : Le runtime asynchrone le plus populaire en Rust
+# - "full" : active toutes les fonctionnalités (timers, IO, sync, etc.)
+# Pourquoi async ? Pour surveiller batterie + WiFi + contrôler prise en parallèle
+tokio = { version = "1.35", features = ["full"] }
+
+# === HTTP CLIENT ===
+# reqwest : Client HTTP moderne et simple
+# - "json" : pour parser les réponses JSON de la Shelly
+# Pourquoi reqwest ? Simple, async-first, bien maintenu
+reqwest = { version = "0.11", features = ["json"] }
+
+# === SÉRIALISATION ===
+# serde : Framework de sérialisation/désérialisation Rust
+# - "derive" : pour générer automatiquement le code avec #[derive(Serialize, Deserialize)]
+serde = { version = "1.0", features = ["derive"] }
+serde_json = "1.0"  # Pour parser JSON (réponses Shelly)
+
+# === CONFIGURATION ===
+# config : Gestion de fichiers de config (TOML, JSON, etc.)
+config = "0.14"
+# toml : Pour lire notre fichier config.toml
+toml = "0.8"
+
+# === LOGGING ===
+# log : Trait standard de logging en Rust
+# env_logger : Implémentation simple (logs vers console/fichier)
+# Pourquoi ? Essentiel pour debugger un daemon qui tourne en arrière-plan
+log = "0.4"
+env_logger = "0.11"
+
+# === GESTION D'ERREURS ===
+# anyhow : Simplifie la gestion d'erreurs avec Context
+# thiserror : Pour créer des types d'erreurs custom propres
+anyhow = "1.0"
+thiserror = "1.0"
+
+# === SYSTÈME ===
+# sysinfo : Pour lire infos système (batterie, réseau, etc.)
+# Alternatives : battery crate (plus spécialisé mais moins flexible)
+sysinfo = "0.30"
+
+# === UTILITAIRES ===
+# chrono : Manipulation de dates/heures (pour logging, historique)
+chrono = "0.4"
+# server api : Pour exposer une API REST (optionnel, mais utile pour monitoring)
+axum = "0.8.8"
+api = "0.2.0"
+
+[target.'cfg(unix)'.dependencies]
+# i2cdev : Binding I2C modernes et bien maintenus pour Linux
+# Plus complet et mieux maintenu que i2c-linux
+# Permet de communiquer avec les UPS HAT via I2C sur Raspberry Pi
+i2cdev = "0.6.2"
+
+[dev-dependencies]
+# === TESTING ===
+# mockito : Framework de mocking HTTP pour les tests
+mockito = "1.2"
+# tracing + tracing-subscriber : Pour capturer les logs dans les tests
+tracing = "0.1"
+tracing-subscriber = { version = "0.3", features = ["fmt", "env-filter"] }
+tempfile = "3.8"
+
+[profile.release]
+# Optimisations pour le binaire final sur Raspberry Pi
+opt-level = "z"     # Optimiser pour la taille (vs vitesse)
+lto = true          # Link Time Optimization : réduit taille binaire
+codegen-units = 1   # Meilleure optimisation (compilation plus lente)
+strip = true        # Retire symboles de debug du binaire

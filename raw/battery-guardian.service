@@ -1,0 +1,31 @@
+[Unit]
+Description=Battery Guardian - Gestionnaire intelligent de batterie pour Raspberry Pi
+Documentation=https://github.com/votre-compte/battery-guardian
+After=network-online.target
+Wants=network-online.target
+
+[Service]
+Type=simple
+User=pi
+Group=pi
+WorkingDirectory=/home/pi
+ExecStart=/home/pi/battery-guardian
+
+# Redémarrage automatique en cas de crash
+Restart=always
+RestartSec=10
+
+# Logs vers journald
+StandardOutput=journal
+StandardError=journal
+SyslogIdentifier=battery-guardian
+
+# Sécurité
+NoNewPrivileges=true
+PrivateTmp=true
+
+# Variables d'environnement (optionnel)
+Environment="RUST_LOG=info"
+
+[Install]
+WantedBy=multi-user.target
