@@ -71,3 +71,13 @@ state_file = "/var/lib/battery-guardian/state.json"
 # Adresse IP et port pour l'API
 api_ip = "0.0.0.0"       #   "127.0.0.1"  accessible à l'IP Raspberry 
 api_port = 9001
+
+[api]
+# URLs autorisées pour le CORS (accès à l'API depuis le frontend)
+# Ajouter autant d'URLs que nécessaire (localhost pour dev, domaines pour prod)
+cors_origins = [
+    "http://localhost:5173",     # Frontend local React/Vite
+    "http://192.168.1.25:8090",  # LAN
+    "http://192.168.1.61:8090"   # WIFI
+]
+

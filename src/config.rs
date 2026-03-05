@@ -20,6 +20,7 @@ pub struct Config {
     pub network: NetworkConfig,
     pub logging: LoggingConfig,
     pub system: SystemConfig,
+    pub api: ApiConfig,
 }
 
 /// Configuration de la prise Shelly Plug S
@@ -155,6 +156,14 @@ impl SystemConfig {
     pub fn shutdown_grace_period(&self) -> Duration {
         Duration::from_secs(self.shutdown_grace_period_seconds)
     }
+}
+
+/// Configuration de l'API REST
+#[derive(Debug, Deserialize, Serialize, Clone)]
+pub struct ApiConfig {
+    /// Liste des origines autorisées pour CORS
+    /// Exemple: ["http://localhost:5173", "http://192.168.1.25"]
+    pub cors_origins: Vec<String>,
 }
 
 impl Config {

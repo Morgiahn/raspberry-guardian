@@ -54,8 +54,11 @@ sysinfo = "0.30"
 # chrono : Manipulation de dates/heures (pour logging, historique)
 chrono = "0.4"
 # server api : Pour exposer une API REST (optionnel, mais utile pour monitoring)
-axum = "0.8.8"
+axum = "0.8"
 api = "0.2.0"
+
+tower-http = { version = "0.6", features = ["cors"] }
+tower = "0.5"
 
 [target.'cfg(unix)'.dependencies]
 # i2cdev : Binding I2C modernes et bien maintenus pour Linux

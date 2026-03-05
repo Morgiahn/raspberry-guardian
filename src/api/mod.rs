@@ -1,27 +1,19 @@
-use std::sync::Arc;
-
 mod api_error;
 pub use api_error::ApiError;
 
 use axum::{
     extract::State,
-    http::StatusCode,
-    response::{IntoResponse, Response}, 
+    http::{StatusCode, HeaderValue},
+    response::IntoResponse,
     routing::{get, post},
     Json,
     Router,
 };
 
-use log::{error, info, warn};
+use tower_http::cors::CorsLayer;
+use log::{error, info};
 use serde::Deserialize;
-use tokio::sync::Mutex;
-use tokio::time::sleep;
-use crate::config::Config;
-use crate::perform_shutdown;
-use crate::shelly::ShellyController;
-use crate::state_machine::{ForceMode, StateController, ChargeState};
-use anyhow::Error;
-
+use crate::state_machine::{ForceMode, ChargeState};
 use crate::app_state::AppState;
 
 use crate::system::shutdown_with_grace;
@@ -33,11 +25,11 @@ struct ModeRequest {
 }
 
 #[derive(serde::Serialize)]
-struct BatteryStatus {
-    level_percent: u8,
-    charging: bool,
-    mode: Option<String>,
-    state: String,
+pub struct BatteryStatus {
+    pub level_percent: u8,
+    pub charging: bool,
+    pub mode: Option<String>,
+    pub state: String,
 }
 
 
@@ -46,11 +38,25 @@ pub async fn start_api_server(
 ) {
     let addr = format!("{}:{}", app_state.config.system.api_ip, app_state.config.system.api_port);
 
+    // Configuration CORS depuis le fichier de config
+    let mut cors = CorsLayer::new();
+    for origin in &app_state.config.api.cors_origins {
+        match origin.parse::<HeaderValue>() {
+            Ok(header_value) => {
+                cors = cors.allow_origin(header_value);
+            }
+            Err(e) => {
+                error!("Erreur parsing CORS origin '{}': {}", origin, e);
+            }
+        }
+    }
+
+    // Créer le router avec routes, state et CORS
     let app = Router::new()
         .route("/mode", post(set_mode))
         .route("/status", get(get_status))
+        .layer(cors)
         .with_state(app_state);
-
 
     let listener = tokio::net::TcpListener::bind(&addr)
         .await
@@ -61,6 +67,7 @@ pub async fn start_api_server(
     axum::serve(listener, app)
         .await
         .expect("Erreur serveur API");
+
 }
 
 async fn set_mode(
